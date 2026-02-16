@@ -195,10 +195,10 @@ class CombatService {
       name: character.name,
       classId: character.class_id,
       level: character.level,
-      currentHp: character.current_hp,
-      maxHp: character.max_hp,
-      currentMana: character.current_mana,
-      maxMana: character.max_mana,
+      currentHp: character.hp_current,
+      maxHp: character.hp_max,
+      currentMana: character.mana_current,
+      maxMana: character.mana_max,
       attackPower: character.attack_power,
       spellPower: character.spell_power,
       armor: character.armor,
@@ -262,14 +262,14 @@ class CombatService {
     const goldGained = playerWon ? Math.floor(10 * enemyData.level) : 0;
 
     // Update character HP/Mana
-    const newHp = playerWon ? Math.max(1, player.currentHp) : character.max_hp; // Full heal if lost
-    const newMana = playerWon ? player.currentMana : character.max_mana;
+    const newHp = playerWon ? Math.max(1, player.currentHp) : character.hp_max; // Full heal if lost
+    const newMana = playerWon ? player.currentMana : character.mana_max;
 
     await supabase
       .from('characters')
       .update({
-        current_hp: newHp,
-        current_mana: newMana,
+        hp_current: newHp,
+        mana_current: newMana,
       })
       .eq('id', playerCharacterId);
 
