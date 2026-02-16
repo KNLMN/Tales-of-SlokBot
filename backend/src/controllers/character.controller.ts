@@ -89,11 +89,16 @@ export const createCharacter = async (
   }
 
   // Grant starting abilities (level 1 abilities)
-  const { data: startingAbilities } = await supabaseAdmin
+  const { data: startingAbilities, error: abilitiesError } = await supabaseAdmin
     .from('abilities')
-    .select('id')
+    .select('id, name')
     .eq('class_id', class_id)
     .eq('level_required', 1);
+
+  console.log(`🎯 Found ${startingAbilities?.length || 0} level 1 abilities for ${class_id}`);
+  if (abilitiesError) {
+    console.error('❌ Error fetching abilities:', abilitiesError);
+  }
 
   if (startingAbilities && startingAbilities.length > 0) {
     const abilityInserts = startingAbilities.map(ability => ({
@@ -101,9 +106,15 @@ export const createCharacter = async (
       ability_id: ability.id
     }));
 
-    await supabaseAdmin
+    const { error: insertError } = await supabaseAdmin
       .from('character_abilities')
       .insert(abilityInserts);
+
+    if (insertError) {
+      console.error('❌ Error inserting character abilities:', insertError);
+    } else {
+      console.log(`✅ Granted ${startingAbilities.length} abilities to character:`, startingAbilities.map(a => a.name));
+    }
   }
 
   res.status(201).json({
