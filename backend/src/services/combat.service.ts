@@ -63,8 +63,11 @@ class CombatService {
         baseDamage = ability.base_value + attacker.spellPower * 0.5;
       }
     } else {
-      // Auto-attack (physical)
-      baseDamage = attacker.attackPower * 0.8;
+      // Auto-attack - use higher of attack_power or spell_power
+      // This allows mages/priests to deal damage with basic attacks
+      const physicalDamage = attacker.attackPower * 0.8;
+      const magicDamage = attacker.spellPower * 0.6; // Slightly lower multiplier for balance
+      baseDamage = Math.max(physicalDamage, magicDamage);
     }
 
     // Critical hit (15% chance)
@@ -89,13 +92,17 @@ class CombatService {
     return Math.floor(baseHealing);
   }
 
-  // Simple AI for PvE enemies
-  private chooseAIAction(enemy: CombatParticipant, abilities: any[]): any | null {
-    // Filter available abilities (enough mana, no cooldown for now)
-    const availableAbilities = abilities.filter((a) => a.mana_cost <= enemy.currentMana);
+  // Simple AI for PvE enemies and players (for now)
+  private chooseAIAction(combatant: CombatParticipant, abilities: any[], isPlayer: boolean = false): any | null {
+    // Filter available damage abilities (enough mana, no cooldown for now)
+    const availableAbilities = abilities.filter((a) =>
+      a.mana_cost <= combatant.currentMana && a.type === 'damage'
+    );
 
-    // 70% chance to use ability if available, otherwise auto-attack
-    if (availableAbilities.length > 0 && Math.random() < 0.7) {
+    // Players use abilities more often (80%), enemies 70%
+    const abilityChance = isPlayer ? 0.8 : 0.7;
+
+    if (availableAbilities.length > 0 && Math.random() < abilityChance) {
       return availableAbilities[Math.floor(Math.random() * availableAbilities.length)];
     }
 
@@ -242,14 +249,14 @@ class CombatService {
       round++;
 
       // Player turn
-      const playerAbility = this.chooseAIAction(player, abilities); // For now, AI for player too
+      const playerAbility = this.chooseAIAction(player, abilities, true); // isPlayer = true
       const playerAction = await this.executeRound(round, player, enemy, playerAbility);
       actions.push(playerAction);
 
       if (enemy.currentHp <= 0) break;
 
       // Enemy turn
-      const enemyAbility = this.chooseAIAction(enemy, enemyAbilities || []);
+      const enemyAbility = this.chooseAIAction(enemy, enemyAbilities || [], false);
       const enemyAction = await this.executeRound(round, enemy, player, enemyAbility);
       actions.push(enemyAction);
 
