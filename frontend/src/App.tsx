@@ -3,6 +3,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import CreateCharacter from './pages/CreateCharacter';
 import Game from './pages/Game';
+import Debug from './pages/Debug';
 import './index.css';
 
 function App() {
@@ -56,6 +57,9 @@ function App() {
             </ProtectedRoute>
           } 
         />
+
+        {/* Debug Route - Public */}
+        <Route path="/debug" element={<Debug />} />
 
         {/* Default Route */}
         <Route path="/" element={<Navigate to="/login" />} />
