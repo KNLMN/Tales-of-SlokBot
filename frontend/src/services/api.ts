@@ -126,6 +126,17 @@ class ApiService {
     const { data } = await this.api.get<ApiResponse<any[]>>('/leaderboards/slokjes');
     return data.data!;
   }
+
+  // Combat endpoints
+  async startPvECombat(enemyType: string): Promise<any> {
+    const { data } = await this.api.post<ApiResponse<any>>('/combat/pve', { enemyType });
+    return data.data!;
+  }
+
+  async getCombatHistory(): Promise<any[]> {
+    const { data } = await this.api.get<ApiResponse<any[]>>('/combat/history');
+    return data.data!;
+  }
 }
 
 export default new ApiService();

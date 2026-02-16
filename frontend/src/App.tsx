@@ -3,6 +3,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import CreateCharacter from './pages/CreateCharacter';
 import Game from './pages/Game';
+import Combat from './pages/Combat';
 import Debug from './pages/Debug';
 import './index.css';
 
@@ -49,13 +50,21 @@ function App() {
             </ProtectedRoute>
           } 
         />
-        <Route 
-          path="/game" 
+        <Route
+          path="/game"
           element={
             <ProtectedRoute>
               <Game />
             </ProtectedRoute>
-          } 
+          }
+        />
+        <Route
+          path="/combat"
+          element={
+            <ProtectedRoute>
+              <Combat />
+            </ProtectedRoute>
+          }
         />
 
         {/* Debug Route - Public */}

@@ -167,11 +167,17 @@ export default function Game() {
 
         {/* Coming Soon Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <FeatureCard 
-            icon="⚔️" 
-            title="Duels" 
+          <FeatureCard
+            icon="⚔️"
+            title="Battle"
+            description="Fight enemies and gain XP!"
+            onClick={() => navigate('/combat')}
+          />
+          <FeatureCard
+            icon="🤺"
+            title="Duels"
             description="Challenge other players to 1v1 combat"
-            comingSoon 
+            comingSoon
           />
           <FeatureCard 
             icon="🏟️" 
@@ -209,22 +215,32 @@ export default function Game() {
   );
 }
 
-function FeatureCard({ 
-  icon, 
-  title, 
-  description, 
-  comingSoon 
-}: { 
-  icon: string; 
-  title: string; 
-  description: string; 
+function FeatureCard({
+  icon,
+  title,
+  description,
+  comingSoon,
+  onClick
+}: {
+  icon: string;
+  title: string;
+  description: string;
   comingSoon?: boolean;
+  onClick?: () => void;
 }) {
   return (
-    <div className="bg-slokbot-dark border-2 border-gray-600 rounded-lg p-6 relative overflow-hidden group hover:border-slokbot-secondary transition-colors">
+    <div
+      onClick={!comingSoon ? onClick : undefined}
+      className={`bg-slokbot-dark border-2 border-gray-600 rounded-lg p-6 relative overflow-hidden group hover:border-slokbot-secondary transition-all ${!comingSoon ? 'cursor-pointer transform hover:scale-105' : ''}`}
+    >
       {comingSoon && (
         <div className="absolute top-2 right-2 bg-slokbot-primary px-3 py-1 rounded-full text-xs font-bold">
           SOON
+        </div>
+      )}
+      {!comingSoon && (
+        <div className="absolute top-2 right-2 bg-green-500 px-3 py-1 rounded-full text-xs font-bold animate-pulse">
+          NEW!
         </div>
       )}
       <div className="text-5xl mb-4">{icon}</div>

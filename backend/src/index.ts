@@ -12,6 +12,7 @@ import inventoryRoutes from './routes/inventory.routes';
 import questRoutes from './routes/quest.routes';
 import leaderboardRoutes from './routes/leaderboard.routes';
 import slokjesRoutes from './routes/slokjes.routes';
+import combatRoutes from './routes/combat.routes';
 import { initTelegramBot } from './telegram/bot';
 import { errorHandler } from './middleware/errorHandler';
 
@@ -45,6 +46,7 @@ app.use('/api/inventory', inventoryRoutes);
 app.use('/api/quests', questRoutes);
 app.use('/api/leaderboards', leaderboardRoutes);
 app.use('/api/slokjes', slokjesRoutes);
+app.use('/api/combat', combatRoutes);
 
 // Error handling middleware (must be last)
 app.use(errorHandler);
