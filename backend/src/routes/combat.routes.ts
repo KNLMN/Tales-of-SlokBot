@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import { startPvECombat, getCombatHistory } from '../controllers/combat.controller';
-import { authenticateToken } from '../middleware/auth';
+import { authenticate } from '../middleware/auth';
 
 const router = Router();
 
 // All routes require authentication
-router.use(authenticateToken);
+router.use(authenticate);
 
 // Start PvE combat
 router.post('/pve', startPvECombat);
