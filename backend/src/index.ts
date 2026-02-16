@@ -50,12 +50,12 @@ app.use('/api/slokjes', slokjesRoutes);
 app.use(errorHandler);
 
 // Initialize Telegram Bot
-//if (process.env.TELEGRAM_BOT_TOKEN) {
-//  initTelegramBot();
-//  console.log('✅ Telegram bot initialized');
-// } else {
-//  console.warn('⚠️  Telegram bot token not found - bot disabled');
-// }
+if (process.env.TELEGRAM_BOT_TOKEN) {
+  initTelegramBot();
+  console.log('✅ Telegram bot initialized');
+} else {
+  console.warn('⚠️  Telegram bot token not found - bot disabled');
+}
 
 // Start server
 app.listen(PORT, () => {
