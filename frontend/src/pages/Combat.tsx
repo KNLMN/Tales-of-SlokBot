@@ -10,6 +10,7 @@ interface CombatAction {
   targetName: string;
   damage?: number;
   healing?: number;
+  manaCost?: number;
   isCritical?: boolean;
   message: string;
 }
