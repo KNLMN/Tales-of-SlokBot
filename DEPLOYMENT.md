@@ -74,11 +74,12 @@ CORS_ORIGIN=https://your-app-name.vercel.app
 3. Click "Import"
 
 ### 2.3 Configure Build Settings
-Vercel should auto-detect Vite, but verify:
+**IMPORTANT:** Override the default settings with these:
 - **Framework Preset:** Vite
-- **Root Directory:** `frontend`
-- **Build Command:** `npm run build`
-- **Output Directory:** `dist`
+- **Root Directory:** `frontend` ⚠️ (click "Edit" and type `frontend`)
+- **Build Command:** `npm run build` (should auto-fill)
+- **Output Directory:** `dist` (should auto-fill)
+- **Install Command:** `npm install` (should auto-fill)
 
 ### 2.4 Add Environment Variables
 Before deploying, add these environment variables:

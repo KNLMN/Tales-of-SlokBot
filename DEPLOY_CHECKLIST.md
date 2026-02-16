@@ -40,11 +40,11 @@ Follow this checklist to deploy Tales of SlokBot in ~10 minutes!
 1. [ ] Go to [vercel.com](https://vercel.com) and sign in with GitHub
 2. [ ] Click "Add New..." → "Project"
 3. [ ] Import `Tales-of-SlokBot`
-4. [ ] Configure:
-   - [ ] Framework: Vite
-   - [ ] Root Directory: `frontend`
-   - [ ] Build Command: `npm run build`
-   - [ ] Output Directory: `dist`
+4. [ ] **IMPORTANT:** Click "Edit" next to Root Directory
+   - [ ] Set Root Directory to: `frontend`
+   - [ ] Framework: Vite (auto-detected)
+   - [ ] Build Command: `npm run build` (auto-filled)
+   - [ ] Output Directory: `dist` (auto-filled)
 5. [ ] Add Environment Variables:
    - [ ] `VITE_API_URL=https://your-railway-url.up.railway.app/api`
    - [ ] `VITE_SUPABASE_URL` (same as backend)
