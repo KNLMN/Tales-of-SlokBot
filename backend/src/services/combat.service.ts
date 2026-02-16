@@ -94,18 +94,29 @@ class CombatService {
 
   // Simple AI for PvE enemies and players (for now)
   private chooseAIAction(combatant: CombatParticipant, abilities: any[], isPlayer: boolean = false): any | null {
+    console.log(`🤖 AI choosing action for ${combatant.name} (${isPlayer ? 'player' : 'enemy'})`);
+    console.log(`   Total abilities: ${abilities.length}`, abilities.map((a: any) => `${a.name} (${a.type})`));
+    console.log(`   Current mana: ${combatant.currentMana}`);
+
     // Filter available damage abilities (enough mana, no cooldown for now)
     const availableAbilities = abilities.filter((a) =>
-      a.mana_cost <= combatant.currentMana && a.type === 'damage'
+      a && a.mana_cost <= combatant.currentMana && a.type === 'damage'
     );
+
+    console.log(`   Available damage abilities: ${availableAbilities.length}`, availableAbilities.map((a: any) => a.name));
 
     // Players use abilities more often (80%), enemies 70%
     const abilityChance = isPlayer ? 0.8 : 0.7;
+    const roll = Math.random();
+    console.log(`   Ability chance: ${abilityChance}, rolled: ${roll.toFixed(2)}`);
 
-    if (availableAbilities.length > 0 && Math.random() < abilityChance) {
-      return availableAbilities[Math.floor(Math.random() * availableAbilities.length)];
+    if (availableAbilities.length > 0 && roll < abilityChance) {
+      const chosen = availableAbilities[Math.floor(Math.random() * availableAbilities.length)];
+      console.log(`   ✅ Chose ability: ${chosen.name}`);
+      return chosen;
     }
 
+    console.log(`   ⚔️ Auto-attack chosen`);
     return null; // Auto-attack
   }
 
@@ -189,12 +200,21 @@ class CombatService {
     }
 
     // Fetch player abilities
-    const { data: playerAbilities } = await supabase
+    const { data: playerAbilities, error: abilitiesError } = await supabase
       .from('character_abilities')
-      .select('*, abilities(*)')
+      .select(`
+        *,
+        abilities (*)
+      `)
       .eq('character_id', playerCharacterId);
 
-    const abilities = playerAbilities?.map((ca) => ca.abilities) || [];
+    console.log('🎯 Player abilities fetched:', playerAbilities?.length || 0, 'abilities');
+    if (abilitiesError) {
+      console.error('❌ Error fetching abilities:', abilitiesError);
+    }
+
+    const abilities = playerAbilities?.map((ca: any) => ca.abilities).filter(Boolean) || [];
+    console.log('🎯 Mapped abilities:', abilities.length, abilities.map((a: any) => a?.name));
 
     // Initialize combatants
     const player: CombatParticipant = {
