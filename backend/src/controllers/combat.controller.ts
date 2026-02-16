@@ -3,7 +3,7 @@ import combatService from '../services/combat.service';
 
 export const startPvECombat = async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.userId;
+    const userId = (req as any).user.id;
     const { enemyType } = req.body;
 
     // Get character
@@ -96,7 +96,7 @@ export const startPvECombat = async (req: Request, res: Response) => {
 
 export const getCombatHistory = async (req: Request, res: Response) => {
   try {
-    const userId = (req as any).user.userId;
+    const userId = (req as any).user.id;
 
     const { supabase } = await import('../utils/supabase');
 
