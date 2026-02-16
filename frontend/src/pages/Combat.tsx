@@ -40,6 +40,7 @@ export default function Combat() {
       difficulty: 'Easy',
       color: 'text-green-400',
       icon: '👺',
+      stats: 'Low HP • Low Damage • Weak Armor',
     },
     {
       id: 'bandit',
@@ -48,6 +49,7 @@ export default function Combat() {
       difficulty: 'Medium',
       color: 'text-yellow-400',
       icon: '🍺',
+      stats: 'Medium HP • Medium Damage • Medium Armor',
     },
     {
       id: 'wolf',
@@ -56,6 +58,7 @@ export default function Combat() {
       difficulty: 'Medium',
       color: 'text-yellow-400',
       icon: '🐺',
+      stats: 'Medium HP • High Damage • Low Armor',
     },
     {
       id: 'mage',
@@ -64,6 +67,7 @@ export default function Combat() {
       difficulty: 'Hard',
       color: 'text-orange-400',
       icon: '🧙',
+      stats: 'Low HP • Very High Spell Damage • Very Low Armor',
     },
     {
       id: 'boss',
@@ -72,6 +76,7 @@ export default function Combat() {
       difficulty: 'Boss',
       color: 'text-red-400',
       icon: '👑',
+      stats: 'Very High HP • Very High Damage • High Armor',
     },
   ];
 
@@ -233,7 +238,11 @@ export default function Combat() {
             >
               <div className="text-6xl text-center mb-4">{enemy.icon}</div>
               <h3 className="text-2xl font-bold text-center mb-2">{enemy.name}</h3>
-              <p className="text-gray-400 text-center text-sm mb-4">{enemy.description}</p>
+              <p className="text-gray-400 text-center text-sm mb-3">{enemy.description}</p>
+              <div className="bg-slate-900 rounded p-3 mb-3">
+                <div className="text-xs text-gray-500 text-center mb-1">Battle Stats</div>
+                <div className="text-xs text-gray-300 text-center">{enemy.stats}</div>
+              </div>
               <div className="text-center">
                 <span className={`${enemy.color} font-bold px-3 py-1 rounded-full text-sm`}>
                   {enemy.difficulty}
