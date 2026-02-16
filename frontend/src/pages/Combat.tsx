@@ -137,20 +137,39 @@ export default function Combat() {
                   key={idx}
                   className={`p-3 rounded ${
                     action.isCritical
-                      ? 'bg-red-900 border border-red-500 text-red-200'
+                      ? 'bg-red-900 border-2 border-red-500 text-red-200'
                       : action.actionType === 'heal'
                       ? 'bg-green-900 border border-green-500 text-green-200'
+                      : action.abilityName
+                      ? 'bg-purple-900 border border-purple-500 text-purple-200'
                       : 'bg-slate-700 text-gray-200'
                   } animate-fadeIn`}
                 >
                   <div className="flex justify-between items-center">
-                    <span>{action.message}</span>
-                    {action.damage && (
-                      <span className="text-red-400 font-bold">-{action.damage} HP</span>
-                    )}
-                    {action.healing && (
-                      <span className="text-green-400 font-bold">+{action.healing} HP</span>
-                    )}
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-semibold">{action.actorName}</span>
+                        {action.abilityName && (
+                          <span className="px-2 py-0.5 bg-purple-600 rounded text-xs font-bold">
+                            ⚡ {action.abilityName}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex flex-col items-end ml-4 gap-1">
+                      {action.damage && (
+                        <span className="text-red-400 font-bold text-lg">-{action.damage} HP</span>
+                      )}
+                      {action.healing && (
+                        <span className="text-green-400 font-bold text-lg">+{action.healing} HP</span>
+                      )}
+                      {action.manaCost && action.manaCost > 0 && (
+                        <span className="text-blue-300 text-xs">-{action.manaCost} mana</span>
+                      )}
+                      {action.isCritical && (
+                        <span className="text-yellow-400 text-xs font-bold">⭐ CRIT!</span>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
